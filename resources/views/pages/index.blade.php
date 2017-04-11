@@ -1,7 +1,6 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('content')
-
 
 <nav class="navbar navbar-default">
   <div class="container-fluid">
@@ -10,8 +9,24 @@
 	  <li><a href="#add_form" class="fancyb"><i class="fa fa-plus"></i> New</a></li>
 	</ul>
 	<form class="navbar-form navbar-right" role="search" action="" method="GET">
+		<div class="form-group">
+			<select name="q_category" class="form-control">
+				<option value="all">All Categories</option>
+				@foreach ($categories as $category)
+				<option value="{{ $category->id }}" {{ $category->id == $q_category ? 'selected' : '' }}>{{ $category->name }}</option>
+				@endforeach
+			</select>
+		</div>
+		<div class="form-group">
+			<select name="q_country" class="form-control">
+				<option value="all">All Countries</option>
+				@foreach ($countries as $country)
+				<option value="{{ $country->id }}" {{ $country->id == $q_country ? 'selected' : '' }}>{{ $country->name. " (" .$country->domain. ")" }}</option>
+				@endforeach
+			</select>
+		</div>
 	  <div class="input-group">
-	    <input name="q" id="q" type="text" class="form-control" placeholder="Search for...">
+	    <input name="q" id="q" type="text" class="form-control" placeholder="Search for..." value="{{ $q }}">
 	    <span class="input-group-btn">
 	  	  <button class="btn btn-default" type="submit"><i class="fa fa-search"></i></button>
 	    </span>
@@ -20,9 +35,6 @@
 	</form>
   </div>
 </nav>
-
-
-
 
 <table class="table table-striped">
 	<tr>
@@ -37,16 +49,15 @@
 		<td>{{ $page->id }}</td>
 		<td>
 			<a href="{{ route('admin.pages.edit', $page->id) }}">{{ $page->name }} </a><br />
-			<small><a href="/c/{{ $page->category->slug }}/{{ $page->slug }}" target="_blank">/c/{{ $page->category->slug }}/{{ $page->slug }}</a></small>
+			<small><a href="/{{ $page->category->slug }}/{{ $page->slug }}" target="_blank">/{{ $page->category->slug }}/{{ $page->slug }}</a></small>
 			
 		</td>
 		<td>{{ $page->category ? $page->category->name : "None" }} </td>
-		<td>{{ $page->country }}</td>
+		<td>{{ $page->country ? $page->country->name : "None" }}</td>
 		<td>
 			<small>
 				Created at: {{ $page->created_at }}<br />
-				Updated at: {{ $page->updated_at }}<br />
-				{{ \Carbon\Carbon::createFromTimeStamp(strtotime($page->created_at))->diffForHumans() }}
+				Updated at: {{ $page->updated_at }}
 			</small>
 		</td>
 

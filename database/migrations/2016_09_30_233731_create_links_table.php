@@ -17,10 +17,10 @@ class CreateLinksTable extends Migration
             $table->integer('menu_id')->unsigned();
             $table->foreign('menu_id')->references('id')->on('menus');
             $table->integer('parent_id')->default(0);
+            $table->integer('country_id')->default(0);
             $table->string('name');
             $table->string('link')->default('#');
-            $table->string('orden')->default(0);
-            $table->string('country');
+            $table->integer('orden')->default(0);
             $table->timestamps();
         });
     }

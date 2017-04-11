@@ -1,29 +1,43 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('content')
 
 <h1>Edit Page</h1>
 <div class="row">
-	<div class="col-sm-8">
+	<div class="col-sm-9">
 		<form method="POST" action="{{ url('admin/pages/' . $page->id) }}">
 
 			@include('partials.errors')
 
 
 			<div class="form-group">
-				<label for="name">Nombre</label>
+				<label for="name">Name</label>
 				<input name="name" type="text" class="form-control input-lg" value="{{ old('name') ? old('name') : $page->name }}">	
 			</div>
 			<div class="form-group">
 				<input name="slug" type="text" class="form-control input-sm" value="{{ old('slug') ? old('slug') : $page->slug }}">	
 			</div>
-			<div class="form-group">
-				<label for="category_id">Category</label>
-				<select name="category_id" id="category_id" class="form-control">
-					@foreach ($categories as $category)
-					<option value="{{ $category->id }}" {{ $category->id == $page->category_id ? 'selected' : '' }}>{{ $category->name }}</option>
-					@endforeach
-				</select>
+			<div class="row">
+				<div class="col-sm-6">
+					<div class="form-group">
+						<label for="category_id">Category</label>
+						<select name="category_id" id="category_id" class="form-control">
+							@foreach ($categories as $category)
+							<option value="{{ $category->id }}" {{ $category->id == $page->category_id ? 'selected' : '' }}>{{ $category->name }}</option>
+							@endforeach
+						</select>
+					</div>
+				</div>
+				<div class="col-sm-6">
+					<div class="form-group">
+						<label for="country_id">Country</label>
+						<select name="country_id" id="country_id" class="form-control">
+							@foreach ($countries as $country)
+							<option value="{{ $country->id }}" {{ $country->id == $page->country_id ? 'selected' : '' }}>{{ $country->name. " (" .$country->domain. ")" }}</option>
+							@endforeach
+						</select>
+					</div>
+				</div>
 			</div>
 			<div class="form-group">
 				<label for="content">Content</label>
@@ -32,21 +46,12 @@
 					var editor = CKEDITOR.replace('content');
 				</script>
 			</div>
-			<div class="form-group">
-				<label for="country">Country</label>
-				<select name="country" id="country" class="form-control">
-					<option value="all">All</option>
-					<option value="co">Colombia</option>
-					<option value="cl">Chile</option>
-					<option value="mx">Mexico</option>
-				</select>
-			</div>
 			<input type="hidden" name="_token" value="{{ csrf_token() }}" id="token">
 			<input type="hidden" name="_method" value="PUT" id="token">
 			<button type="submit" class="btn btn-primary">Save</button>
 		</form>
 	</div>
-	<div class="col-sm-4">
+	<div class="col-sm-3">
 		@include('partials.pages_fields')
 	</div>
 </div>

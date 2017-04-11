@@ -1,0 +1,7 @@
+*Admin Layout ++
+*Email config
+*Depure DB ++
+*Administrative countries ++
+*configure min
+*configure laracast
+*SoftDeletes ++

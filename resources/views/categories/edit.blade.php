@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('content')
 
@@ -10,6 +10,10 @@
 	</div>
 	<div class="form-group">
 		<input name="slug" type="text" class="form-control input-sm" value="{{ old('slug') ? old('slug') : $category->slug }}">	
+	</div>
+	<div class="form-group">
+		<label for="content">Content</label>
+		<textarea name="content" type="text" class="form-control">{{ old('content') ? old('content') : $category->content }}</textarea>
 	</div>
 	<input type="hidden" name="_token" value="{{ csrf_token() }}" id="token">
 	<input name="_method" type="hidden" value="PUT">

@@ -4,7 +4,7 @@
 
 <nav class="navbar navbar-default">
   <div class="container-fluid">
-  	<a class="navbar-brand" href="{{ route('admin.categories.index') }}">Categories</a>
+  	<a class="navbar-brand" href="{{ route('admin.countries.index') }}">Countries</a>
     <ul class="nav navbar-nav navbar-right">
 	  <li><a href="#add_form" class="fancyb"><i class="fa fa-plus"></i> New</a></li>
 	</ul>
@@ -15,37 +15,37 @@
 	<tr>
 		<th width="20">ID</th>
 		<th>Name</th>
-		<th width="50">Pages</th>
 		<th width="150">TimeStamps</th>
 	</tr>
-	@foreach ($categories as $category)
+	@foreach ($countries as $country)
 	<tr>
-		<td>{{ $category->id }}</td>
+		<td>{{ $country->id }}</td>
 		<td>
-			<a href="{{ route('admin.categories.edit', $category->id) }}">{{ $category->name }} </a><br />
-			<small><a href="/{{ $category->slug }}" target="_blank">/{{ $category->slug }}</a></small>
+			<a href="{{ route('admin.countries.edit', $country->id) }}">{{ $country->name }} ({{ $country->code }}) </a><br />
+			<small><a href="http://{{ $country->domain }}" target="_blank">{{ $country->domain }}</a></small>
 		</td>
-		<td>
-			{{ $category->pages->count() }}
-		</td>
-		<td>{{ $category->created_at }}<br>
-		{{ \Carbon\Carbon::createFromTimeStamp(strtotime($category->created_at))->diffForHumans() }}
+		<td>{{ $country->created_at }}<br>
+		{{ $country->updated_at }}<br>
 		</td>
 
 	</tr>
 	@endforeach
 </table>
-{!! $categories->render() !!}
+{!! $countries->render() !!}
 
 
 <div class="add_form" id="add_form" style="display: none;">
-	<form method="POST" action="{{ url('admin/categories') }}">
+	<form method="POST" action="{{ url('admin/countries') }}">
 		<div class="form-group">
 			<label for="name">Name</label>
 			<input name="name" type="text" class="form-control input-lg" value="{{ old('name') }}">	
 		</div>
 		<div class="form-group">
-			<input name="slug" type="text" class="form-control input-xd" value="{{{ old('slug') ? old('slug') : rand(1000000,9999999) }}}">	
+			<input name="code" type="text" class="form-control input-xs" value="{{ old('code') }}">	
+		</div>
+		<div class="form-group">
+			<label for="domain">Domain</label>
+			<input name="domain" type="text" class="form-control" value="{{ old('domain') }}">	
 		</div>
 		<input type="hidden" name="_token" value="{{ csrf_token() }}" id="token">
 		<button type="submit" class="btn btn-primary">Save</button>

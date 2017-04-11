@@ -11,14 +11,24 @@
     {!! Html::style('css/jquery.fancybox.css') !!}
     {!! Html::style('css/font-awesome.min.css') !!}
     {!! Html::style('css/animations.css') !!}
-    {!! Html::style('css/app.css') !!}
+    {!! Html::style('css/admin.css') !!}
+    {!! Html::script('editor/ckeditor.js') !!}
     
 </head>
 <body>
 	<header>
 		<div class="container">
-			<p align="center"><a href="{{ url('/') }}"><img src="http://droni.co/img/logo-dronico.png"></a></p>
-			@include('partials.menu', ['menu_id' => 1])
+			<ul class="nav navbar-nav navbar-inverse">
+				<li><a href="/">Drodmin v4</a>
+				<li><a href="{{ url('admin/pages') }}">Pages</a></li>
+				<li><a href="{{ url('admin/categories') }}">Cetegories</a></li>
+				<li><a href="{{ url('admin/menus') }}">Menús</a></li>
+				<li><a href="{{ url('admin/users') }}">Users</a></li>
+				<li><a href="{{ url('admin/countries') }}">Countries</a></li>
+			</ul>
+			<ul class="nav navbar-nav navbar-right">
+				<li><a href="{{ url('auth/logout') }}"><i class="fa fa-power-off"></i></a></li>
+			</ul>
 		</div>
 
 	</header>
