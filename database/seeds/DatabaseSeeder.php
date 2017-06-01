@@ -12,10 +12,22 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        
         Model::unguard();
 
         // $this->call('UserTableSeeder');
 
         Model::reguard();
+
+        DB::table('countries')->insert([
+            'name' => 'Colombia',
+            'domain' => 'localhost',
+            'code' => 'code',
+        ]);
+
+        DB::table('categories')->insert([
+            'name' => 'Blog',
+            'slug' => 'blog'
+        ]);
     }
 }

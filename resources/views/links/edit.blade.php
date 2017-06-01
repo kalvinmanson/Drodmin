@@ -17,12 +17,11 @@
 		<input name="orden" type="number" class="form-control" value="{{ old('orden') ? old('orden') : $link->orden }}">	
 	</div>
 	<div class="form-group">
-		<label for="country">Country</label>
-		<select name="country" id="country" class="form-control">
-			<option value="all">All</option>
-			<option value="co">Colombia</option>
-			<option value="cl">Chile</option>
-			<option value="mx">Mexico</option>
+		<label for="country_id">Country</label>
+		<select name="country_id" id="country_id" class="form-control">
+			@foreach ($countries as $country)
+			<option value="{{ $country->id }}" {{ $country->id == $link->country_id ? 'selected' : '' }}>{{ $country->name. " (" .$country->domain. ")" }}</option>
+			@endforeach
 		</select>
 	</div>
 	<input type="hidden" name="_method" value="PUT">

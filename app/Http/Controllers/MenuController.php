@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Menu;
 use App\Link;
+use App\Country;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
@@ -56,8 +57,9 @@ class MenuController extends Controller
         if(!$this->hasrole('Admin')) { return redirect('/'); }
 
         $menu = Menu::find($id);
+        $countries = Country::all();
         $linksl1 = Link::where('parent_id', 0)->where('menu_id', $menu->id)->orderBy('orden', 'asc')->get();
-        return view('menus/edit', compact('menu', 'linksl1'));
+        return view('menus/edit', compact('menu', 'linksl1', 'countries'));
     }
 
     /**

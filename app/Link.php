@@ -6,11 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Link extends Model
 {
-	protected $fillable = ['menu_id', 'parent_id', 'name', 'link', 'orden', 'country'];
+	protected $fillable = ['menu_id', 'parent_id', 'country_id', 'name', 'link', 'orden'];
 
     public function menu()
     {
         return $this->belongsTo('App\Menu');
+    }
+    public function country()
+    {
+        return $this->belongsTo('App\Country', 'country_id');
     }
     public function parent()
     {

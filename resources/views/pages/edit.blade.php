@@ -9,7 +9,15 @@
 
 			@include('partials.errors')
 
-
+			@if($page->trashed())
+			<div class="form-group">
+				<div class="checkbox">
+					<label>
+				    	<input type="checkbox" name="untrash" value="1"> This page was deleted. You want undelete?
+					</label>
+				</div>
+			</div>
+			@endif
 			<div class="form-group">
 				<label for="name">Name</label>
 				<input name="name" type="text" class="form-control input-lg" value="{{ old('name') ? old('name') : $page->name }}">	

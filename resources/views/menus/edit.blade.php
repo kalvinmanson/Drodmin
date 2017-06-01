@@ -32,7 +32,7 @@
 			    </div>
 			{!! Form::close() !!}
 
-			<span class="badge">country: {{ $link->country }}</span>
+			<span class="badge">country: {{ $link->country->name }}</span>
 			{{ $link->orden }}: {{ $link->name }} <br />
 			<small>{{ $link->link }}</small>
 			<ul>
@@ -49,7 +49,7 @@
 					    </div>
 					{!! Form::close() !!}
 
-					<span class="badge">country: {{ $linkl2->country }}</span>
+					<span class="badge">country: {{ $linkl2->country->name }}</span>
 					{{ $linkl2->orden }}: {{ $linkl2->name }} <br />
 					<small>{{ $linkl2->link }}</small>
 				</li>
@@ -89,12 +89,11 @@
 			    </div>
 
 				<div class="form-group">
-					<label for="country">Country</label>
-					<select name="country" id="country" class="form-control">
-						<option value="all">All</option>
-						<option value="co">Colombia</option>
-						<option value="cl">Chile</option>
-						<option value="mx">Mexico</option>
+					<label for="country_id">Country</label>
+					<select name="country_id" id="country_id" class="form-control">
+						@foreach ($countries as $country)
+						<option value="{{ $country->id }}">{{ $country->name. " (" .$country->domain. ")" }}</option>
+						@endforeach
 					</select>
 				</div>
 			    <div class="form-group">

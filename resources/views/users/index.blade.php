@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('content')
 <nav class="navbar navbar-default">
@@ -10,14 +10,19 @@
 	<tr>
 		<th width="20">ID</th>
 		<th>Name</th>
+		<th>Email</th>
+		<th>Role</th>
 		<th width="150">TimeStamps</th>
 	</tr>
 	@foreach ($users as $user)
-	<tr>
+	<tr class="{{ $user->active ? 'success' : 'danger' }}">
 		<td>{{ $user->id }}</td>
 		<td>
-			<a href="{{ route('admin.users.edit', $user->id) }}">{{ $user->name }} </a>			
+			<a href="{{ route('admin.users.edit', $user->id) }}">{{ $user->name }}</a><br />
+			<small>{{ $user->username }}</small>
 		</td>
+		<td>{{  $user->email }}</td>
+		<td>{{  $user->role }}</td>
 		<td>{{ $user->created_at }}<br>
 		{{ \Carbon\Carbon::createFromTimeStamp(strtotime($user->created_at))->diffForHumans() }}
 		</td>

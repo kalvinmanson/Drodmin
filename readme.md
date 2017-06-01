@@ -1,27 +1,39 @@
-## Laravel PHP Framework
+## Drodmin V3.1.1
 
-[![Build Status](https://travis-ci.org/laravel/framework.svg)](https://travis-ci.org/laravel/framework)
-[![Total Downloads](https://poser.pugx.org/laravel/framework/d/total.svg)](https://packagist.org/packages/laravel/framework)
-[![Latest Stable Version](https://poser.pugx.org/laravel/framework/v/stable.svg)](https://packagist.org/packages/laravel/framework)
-[![Latest Unstable Version](https://poser.pugx.org/laravel/framework/v/unstable.svg)](https://packagist.org/packages/laravel/framework)
-[![License](https://poser.pugx.org/laravel/framework/license.svg)](https://packagist.org/packages/laravel/framework)
+Drodmin is a simple seudo-CMS or initializer pack to create simple and fast web aplications or websites writed in Laravel framework 5.1 LTS.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as authentication, routing, sessions, queueing, and caching.
+## New features and fixes
 
-Laravel is accessible, yet powerful, providing powerful tools needed for large, robust applications. A superb inversion of control container, expressive migration system, and tightly integrated unit testing support give you the tools you need to build any application with which you are tasked.
+* CKEditor Updated
+* Country selector for links
+* Solve listing in admin/pages
+* New softDeleting behaviour for pages.
+	* list trashed, delete trashed and restore
+* List users in admin panel
+* Reset password behaviour added
+* Username fiald added (hidden)
+* Seeds to init countries and categories
 
-## Official Documentation
+## Installation
 
-Documentation for the framework can be found on the [Laravel website](http://laravel.com/docs).
+Just clone the repository and run 
+* $ composer install
+* $ npm install
+* Create and configure .env file
+* $ php artisan make migrate
+* $ php artisan db:seed
+* $ php artisan serve
 
-## Contributing
+## Usage
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](http://laravel.com/docs/contributions).
+Use the route '/auth/register' to create your account and go to your databse to change the role of your user to 'Admin'.
+Login in the admin area in this route 'admin/pages'
 
-## Security Vulnerabilities
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
+## There is no documentation
 
-### License
+Is a personal project, so I don't write documentation
 
-The Laravel framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
+### Visit my web
+
+You can visit my web to see other projects. [KalvinManson](http://kalvinman.com)

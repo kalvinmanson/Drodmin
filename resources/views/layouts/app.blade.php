@@ -17,7 +17,7 @@
 <body>
 	<header>
 		<div class="container">
-			<p align="center"><a href="{{ url('/') }}"><img src="http://droni.co/img/logo-dronico.png"></a></p>
+			<p align="center"><a href="/"><img src="http://droni.co/img/logo-dronico.png"></a></p>
 			@include('partials.menu', ['menu_id' => 1])
 		</div>
 

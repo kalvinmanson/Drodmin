@@ -10,6 +10,13 @@
 	</ul>
 	<form class="navbar-form navbar-right" role="search" action="" method="GET">
 		<div class="form-group">
+			<div class="checkbox">
+				<label>
+					Only Trash <input type="checkbox" name="q_trash" value="1" {{ $q_trash == 1 ? 'checked' : '' }}>
+				</label>
+			</div>
+		</div>
+		<div class="form-group">
 			<select name="q_category" class="form-control">
 				<option value="all">All Categories</option>
 				@foreach ($categories as $category)

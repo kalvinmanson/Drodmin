@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 
 use Auth;
 use App\Link;
-
+use App\Country;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -23,8 +23,7 @@ class LinkController extends Controller
         //validation
         $this->validate($request, [
             'name'          =>  'required',
-            'menu_id'       =>  'required',
-            'country'       =>  'required'
+            'menu_id'       =>  'required'
         ]);
         
         //save record
@@ -42,7 +41,8 @@ class LinkController extends Controller
         if(!$this->hasrole('Admin')) { return redirect('/'); }
 
         $link = Link::find($id);
-        return view('links/edit', compact('link'));
+        $countries = Country::all();
+        return view('links/edit', compact('link', 'countries'));
     }
 
 

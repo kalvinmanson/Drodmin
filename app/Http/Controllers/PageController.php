@@ -26,11 +26,13 @@ class PageController extends Controller
      */
     public function index(Request $request)
     {
+        // Only Admins
+        if(!$this->hasrole('Admin')) { return redirect('/'); }
+
         $q = $request->session()->get('q');
         $q_country = $request->session()->get('q_country');
         $q_category = $request->session()->get('q_category');
-        // Only Admins
-        if(!$this->hasrole('Admin')) { return redirect('/'); }
+        $q_trash = $request->session()->get('q_trash');
         
         if(isset($request->q)) {
             //set categry
@@ -45,6 +47,10 @@ class PageController extends Controller
             $request->session()->put('q', $request->q);
             $q = $request->q;
 
+            //set trash
+            $request->session()->put('q_trash', $request->q_trash);
+            $q_trash = $request->q_trash;
+            
         }
 
         $pages = Page::where(function($query) use ($q){
@@ -52,19 +58,25 @@ class PageController extends Controller
                         ->orWhere('content', 'LIKE', '%'.$q.'%');
             })        
             ->where(function($query) use ($q_country){
-                if($q_country != 'all') {
+                if(isset($q_country) && $q_country != 'all') {
                     $query->where('country_id', $q_country);
                 }
             })
             ->where(function($query) use ($q_category){
-                if($q_category != 'all') {
+                if(isset($q_category) && $q_category != 'all') {
                     $query->where('category_id', $q_category);
                 }
             })
-            ->orderBy('updated_at', 'desc')->paginate(50);
+            ->orderBy('updated_at', 'desc');
+            //if soft delete
+            if(isset($q_trash) && $q_trash == 1) {
+                $pages->onlyTrashed();
+            }
+            $pages = $pages->paginate(50);
+
         $categories = Category::all();
         $countries = Country::all();
-        return view('pages/index', compact('pages', 'categories', 'countries', 'q_country', 'q_category', 'q'));
+        return view('pages/index', compact('pages', 'categories', 'countries', 'q_country', 'q_category', 'q', 'q_trash'));
     }
 
     public function store(Request $request)
@@ -86,7 +98,7 @@ class PageController extends Controller
         // Only Admins
         if(!$this->hasrole('Admin')) { return redirect('/'); }
 
-        $page = Page::find($id);
+        $page = Page::withTrashed()->find($id);
         $categories = Category::all();
         $countries = Country::all();
         return view('pages/edit', compact('page', 'categories', 'countries'));
@@ -96,12 +108,17 @@ class PageController extends Controller
         // Only Admins
         if(!$this->hasrole('Admin')) { return redirect('/'); }
 
-        $page = Page::find($id);
+        $page = Page::withTrashed()->find($id);
 
         $this->validate(request(), [
             'name' => ['required', 'max:100'],
             'slug' => ['unique:pages,slug,'.$page->id, 'required', 'max:50']
         ]);
+
+        //restore trashed item
+        if($request->untrash) {
+            $page->restore();
+        }
         $record_store = request()->all();
         $page->fill($record_store)->save();
         return redirect()->action('PageController@index');
@@ -111,7 +128,10 @@ class PageController extends Controller
         // Only Admins
         if(!$this->hasrole('Admin')) { return redirect('/'); }
         
-        $page = Page::find($id);
+        $page = Page::withTrashed()->find($id);
+        if($page->trashed()) {
+            $page->forceDelete();
+        }
         Page::destroy($page->id);
         return redirect()->action('PageController@index');
     }

@@ -17,7 +17,7 @@
 </head>
 <body>
 	<header>
-		<div class="container">
+		<div class="container-fluid">
 			<ul class="nav navbar-nav navbar-inverse">
 				<li><a href="/">Drodmin v4</a>
 				<li><a href="{{ url('admin/pages') }}">Pages</a></li>
@@ -32,7 +32,7 @@
 		</div>
 
 	</header>
-		<div class="container">
+		<div class="container-fluid">
 			@include('flash::message')
      		@include('partials.errors')
 			@yield('content')
