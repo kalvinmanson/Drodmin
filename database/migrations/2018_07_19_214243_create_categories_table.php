@@ -18,6 +18,7 @@ class CreateCategoriesTable extends Migration
         $table->integer('parent_id')->default(0);
         $table->string('name');
         $table->string('slug')->unique();
+        $table->string('type')->default('Page');
         $table->string('picture')->nullable();
         $table->text('description')->nullable();
         $table->text('content')->nullable();

@@ -15,12 +15,15 @@ class CreateBlocksTable extends Migration
     {
       Schema::create('blocks', function (Blueprint $table) {
         $table->increments('id');
+        $table->unsignedInteger('category_id');
+        $table->foreign('category_id')->references('id')->on('categories');
         $table->unsignedInteger('user_id');
         $table->foreign('user_id')->references('id')->on('users');
         $table->string('name');
         $table->string('picture')->nullable();
         $table->text('description')->nullable();
         $table->text('content')->nullable();
+        $table->string('link')->nullable();
         $table->integer('weight')->default(0);
         $table->timestamps();
       });

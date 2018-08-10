@@ -10,4 +10,8 @@ class Category extends Model
   {
     return $this->hasMany('App\Page')->orderBy('weight', 'desc');
   }
+  public function blocks()
+  {
+    return $this->hasMany('App\Page')->orderBy('weight', 'desc');
+  }
 }
