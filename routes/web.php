@@ -14,6 +14,7 @@
 Route::prefix('admin')->namespace('Admin')->as('admin.')->middleware(['auth', 'admin'])->group(function () {
   Route::get('/', 'CategoryController@index');
   Route::resource('categories', 'CategoryController');
+  Route::resource('attachments', 'AttachmentController');
   Route::resource('categories.pages', 'PageController');
   Route::resource('categories.pages.fields', 'FieldController');
   Route::resource('notifications', 'NotificationController');
