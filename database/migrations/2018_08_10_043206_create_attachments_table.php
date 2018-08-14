@@ -21,6 +21,7 @@ class CreateAttachmentsTable extends Migration
             $table->string('file');
             $table->integer('size');
             $table->string('path');
+            $table->string('thumbnail');
             $table->timestamps();
         });
     }

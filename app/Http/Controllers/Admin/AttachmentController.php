@@ -10,6 +10,7 @@ use App\Attachment;
 
 use Auth;
 use URL;
+use Image;
 
 class AttachmentController extends Controller
 {
@@ -38,7 +39,30 @@ class AttachmentController extends Controller
      */
     public function store(Request $request)
     {
-      return '/path/to/file.txt';
+      $validatedData = $request->validate([
+        'upload' => 'required|mimes:jpeg,bmp,png,doc,docx,pdf,xls,xlsx,csv'
+      ]);
+      $filename = str_slug(explode('.', $request->file('upload')->getClientOriginalName())[0]).'.'.$request->file('upload')->getClientOriginalExtension();
+      if(Attachment::where('user_id', Auth::user()->id)->where('name', $filename)->first()) {
+        $filename = str_slug(explode('.', $request->file('upload')->getClientOriginalName())[0]).rand(10000,99999).'.'.$request->file('upload')->getClientOriginalExtension();
+      }
+      //Create thumbnail
+      Image::make($request->file('upload'))->save('uploads/'.Auth::user()->id.'/'.$filename);
+      Image::make($request->file('upload'))->widen(300)->save('uploads/'.Auth::user()->id.'/thumb-'.$filename);
+
+      $attachment = new Attachment;
+      $attachment->user_id = Auth::user()->id;
+      $attachment->name = $filename;
+      $attachment->file = $filename;
+      $attachment->size = $request->file('upload')->getClientSize();
+      $attachment->path = '/uploads/'.Auth::user()->id.'/'.$filename;
+      $attachment->thumbnail = '/uploads/'.Auth::user()->id.'/thumb-'.$filename;
+      $attachment->save();
+      return response()->json([
+        'uploaded' => 1,
+        'fileName' => $filename,
+        'url' => '/uploads/'.Auth::user()->id.'/'.$filename
+      ]);
     }
 
     /**
