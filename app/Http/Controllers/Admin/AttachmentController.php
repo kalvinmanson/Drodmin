@@ -5,21 +5,19 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-use App\Category;
+use App\Notification;
+use App\Attachment;
 
 use Auth;
 use URL;
 
 class AttachmentController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+
+    public function index(Request $request)
     {
-        //
+      $attachments = Attachment::all();
+      return view('admin.attachments.index', compact('attachments'));
     }
 
     /**
@@ -40,7 +38,7 @@ class AttachmentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+      return '/path/to/file.txt';
     }
 
     /**

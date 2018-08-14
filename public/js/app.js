@@ -47455,26 +47455,30 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['name'],
   components: { VueCkeditor: __WEBPACK_IMPORTED_MODULE_0_vue_ckeditor2__["a" /* default */] },
   data: function data() {
     return {
       content: '',
       config: {
-        height: 300
+        height: 300,
+        filebrowserBrowseUrl: '/admin/attachments',
+        filebrowserUploadUrl: '/admin/attachments'
       }
     };
   },
 
   methods: {
     onBlur: function onBlur(editor) {
-      console.log(editor);
+      //console.log(editor);
     },
     onFocus: function onFocus(editor) {
-      console.log(editor);
+      //console.log(editor);
     }
   }
 });
@@ -47808,6 +47812,28 @@ var render = function() {
             _vm.content = $$v
           },
           expression: "content"
+        }
+      }),
+      _vm._v(" "),
+      _c("textarea", {
+        directives: [
+          {
+            name: "model",
+            rawName: "v-model",
+            value: _vm.content,
+            expression: "content"
+          }
+        ],
+        staticClass: "d-none",
+        attrs: { name: _vm.name },
+        domProps: { value: _vm.content },
+        on: {
+          input: function($event) {
+            if ($event.target.composing) {
+              return
+            }
+            _vm.content = $event.target.value
+          }
         }
       })
     ],

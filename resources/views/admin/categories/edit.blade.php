@@ -39,8 +39,7 @@
 
       <div class="form-group">
         <label for="content">Content</label>
-        <textarea type="text" name="content" id="content" class="form-control" value="{{ old('content') ? old('content') : $category->content }}"></textarea>
-        <editor></editor>
+        <editor name="content" value="{{ old('content') ? old('content') : $category->content }}"></editor>
       </div>
     </div>
     <div class="card-footer">
