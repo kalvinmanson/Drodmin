@@ -18,7 +18,7 @@ class CreateAttachmentsTable extends Migration
             $table->unsignedInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
             $table->string('name');
-            $table->string('file');
+            $table->string('mime');
             $table->integer('size');
             $table->string('path');
             $table->string('thumbnail');

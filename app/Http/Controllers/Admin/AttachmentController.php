@@ -10,6 +10,7 @@ use App\Attachment;
 
 use Auth;
 use URL;
+use File;
 use Image;
 
 class AttachmentController extends Controller
@@ -20,23 +21,6 @@ class AttachmentController extends Controller
       $attachments = Attachment::all();
       return view('admin.attachments.index', compact('attachments'));
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
       $validatedData = $request->validate([
@@ -46,6 +30,11 @@ class AttachmentController extends Controller
       if(Attachment::where('user_id', Auth::user()->id)->where('name', $filename)->first()) {
         $filename = str_slug(explode('.', $request->file('upload')->getClientOriginalName())[0]).rand(10000,99999).'.'.$request->file('upload')->getClientOriginalExtension();
       }
+      //create folder
+      if(!File::exists(public_path().'/uploads/'.Auth::user()->id)) {
+        File::makeDirectory(public_path().'/uploads/'.Auth::user()->id);
+      }
+
       //Create thumbnail
       Image::make($request->file('upload'))->save('uploads/'.Auth::user()->id.'/'.$filename);
       Image::make($request->file('upload'))->widen(300)->save('uploads/'.Auth::user()->id.'/thumb-'.$filename);
@@ -53,60 +42,28 @@ class AttachmentController extends Controller
       $attachment = new Attachment;
       $attachment->user_id = Auth::user()->id;
       $attachment->name = $filename;
-      $attachment->file = $filename;
+      $attachment->mime = $request->file('upload')->getClientOriginalExtension();
       $attachment->size = $request->file('upload')->getClientSize();
       $attachment->path = '/uploads/'.Auth::user()->id.'/'.$filename;
       $attachment->thumbnail = '/uploads/'.Auth::user()->id.'/thumb-'.$filename;
       $attachment->save();
-      return response()->json([
-        'uploaded' => 1,
-        'fileName' => $filename,
-        'url' => '/uploads/'.Auth::user()->id.'/'.$filename
-      ]);
-    }
+      if($request->responseHTML) {
+        return redirect()->route('admin.attachments.index');
+      } else {
+        return response()->json([
+          'uploaded' => 1,
+          'fileName' => $filename,
+          'url' => '/uploads/'.Auth::user()->id.'/'.$filename
+        ]);
+      }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
-        //
+      $attachment = Attachment::findOrFail($id);
+      File::delete(public_path().$attachment->path);
+      File::delete(public_path().$attachment->thumbnail);
+      $attachment->delete();
+      return redirect()->route('admin.attachments.index');
     }
 }
