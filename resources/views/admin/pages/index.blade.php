@@ -24,7 +24,7 @@
           {{ $category->name }},
         @endforeach
       </td>
-      <td>{{ $page->picture }}</td>
+      <td><a href="{{ $page->picture }}" data-fancybox="gallery">{{ $page->picture }}</a></td>
       <td>
         <small>
           Created at {{ $page->created_at }},<br>
@@ -34,6 +34,7 @@
     </tr>
     @endforeach
   </table>
+  {{ $pages->links() }}
 </div>
 
 

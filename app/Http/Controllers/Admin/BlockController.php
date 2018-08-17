@@ -5,81 +5,86 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
+use App\Notification;
+use App\Block;
+
+use Auth;
+use URL;
+
 class BlockController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
+  public function index()
+  {
+    $blocks = Block::paginate(20);
+    return view('admin.blocks.index', compact('blocks'));
+  }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+  public function store(Request $request)
+  {
+    $validatedData = $request->validate([
+      'name' => 'required|max:255'
+    ]);
+    $block = new Block;
+    $block->name = $request->name;
+    $block->save();
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+    //log notification
+    $notification = Notification::create([
+      'name' => 'Block '.$block->name.' created.',
+      'user_id' => Auth::user()->id,
+      'location' => URL::previous(),
+      'data' => $block->toJson()
+    ]);
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
+    flash('Record saved')->success();
+    return redirect()->route('admin.blocks.index');
+  }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
+  public function edit($id)
+  {
+    $block = Block::findOrFail($id);
+    return view('admin.blocks.edit', compact('block'));
+  }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
+  public function update(Request $request, $id)
+  {
+    $block = Block::findOrFail($id);
+    $validatedData = $request->validate([
+      'name' => 'required|max:255'
+    ]);
+    $block->name = $request->name;
+    $block->picture = $request->picture;
+    $block->description = $request->description;
+    $block->content = $request->content;
+    $block->link = $request->link;
+    $block->weight = $request->weight;
+    $block->save();
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
+    //log notification
+    $notification = Notification::create([
+      'name' => 'Block '.$block->name.' updated.',
+      'user_id' => Auth::user()->id,
+      'location' => URL::previous(),
+      'data' => $block->toJson()
+    ]);
+
+    flash('Record updated')->success();
+    return redirect()->route('admin.blocks.index');
+  }
+
+  public function destroy($id)
+  {
+    $block = Block::findOrFail($id);
+
+    $block->delete();
+    //log notification
+    $notification = Notification::create([
+      'name' => 'Block '.$block->name.' deleted.',
+      'user_id' => Auth::user()->id,
+      'location' => URL::previous(),
+      'data' => $block->toJson()
+    ]);
+    flash('Record was destroyed.')->success();
+    return redirect()->route('admin.blocks.index');
+  }
 }

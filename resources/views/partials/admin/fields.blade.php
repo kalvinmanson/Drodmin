@@ -64,7 +64,13 @@
 @foreach($page->fields as $field)
   <div class="card">
     <div class="card-body">
-      {{ $field->name }}:
+      <form method="POST" action="{{ route('admin.fields.destroy', $field->id )}}" class="float-right">
+        @csrf
+        <input type="hidden" name="_method" value="DELETE">
+        <button type="submit" class="btn btn-sm btn-link text-danger"><i class="far fa-trash-alt"></i></button>
+      </form>
+      <span class="badge badge-secondary float-right">{{ $field->weight }}</span>
+      <strong>{{ $field->name }}</strong> ({{ $field->format }}):
       {{ $field->content }}
     </div>
   </div>

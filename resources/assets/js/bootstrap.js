@@ -10,8 +10,8 @@ window.Popper = require('popper.js').default;
 
 try {
     window.$ = window.jQuery = require('jquery');
-
     require('bootstrap');
+    require('fancybox/dist/js/jquery.fancybox.pack')
 } catch (e) {}
 
 /**
@@ -54,3 +54,7 @@ if (token) {
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     encrypted: true
 // });
+
+$(function() {
+  $('[data-fancybox="gallery"]').fancybox({});
+});

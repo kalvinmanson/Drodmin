@@ -78,6 +78,18 @@ class FieldController extends Controller
      */
     public function destroy($id)
     {
-        //
+      $field = Field::findOrFail($id);
+      $field->delete();
+
+      //log notification
+      $notification = Notification::create([
+        'name' => 'Field '.$field->name.' deleted on page.',
+        'user_id' => Auth::user()->id,
+        'location' => URL::previous(),
+        'data' => $field->toJson()
+      ]);
+
+      flash('Record removed')->success();
+      return redirect()->route('admin.pages.edit', $field->page_id);
     }
 }
