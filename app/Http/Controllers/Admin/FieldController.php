@@ -5,56 +5,54 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
+use App\Notification;
+use App\Field;
+
+use Auth;
+use URL;
+
 class FieldController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
-        //
+      $fields = Field::distinct()->select('name')->get();
+      return response()->json($fields);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+      $validatedData = $request->validate([
+        'name' => 'required|max:255',
+        'format' => 'required|max:255',
+        'page_id' => 'required',
+        'content' => 'required'
+      ]);
+      $field = new Field;
+      $field->page_id = $request->page_id;
+      $field->format = $request->format;
+      $field->name = $request->name;
+      $field->content = $request->content;
+      $field->weight = $request->weight;
+      $field->save();
+
+      //log notification
+      $notification = Notification::create([
+        'name' => 'Field '.$field->name.' created on page.',
+        'user_id' => Auth::user()->id,
+        'location' => URL::previous(),
+        'data' => $field->toJson()
+      ]);
+
+      flash('Record saved')->success();
+      return redirect()->route('admin.pages.edit', $request->page_id);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         //

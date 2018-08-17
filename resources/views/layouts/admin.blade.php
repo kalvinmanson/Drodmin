@@ -20,7 +20,8 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto">
-            <li class="nav-item"><a class="nav-link" href="{{ route('admin.categories.index') }}">Categories & Pages</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ route('admin.categories.index') }}">Categories</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ route('admin.pages.index') }}">Pages</a></li>
             <li class="nav-item"><a class="nav-link" href="{{ route('admin.blocks.index') }}">Blocks</a></li>
             <li class="nav-item"><a class="nav-link" href="{{ route('admin.users.index') }}">Users</a></li>
             <li class="nav-item"><a class="nav-link" href="{{ route('admin.contacts.index') }}">Contacts</a></li>

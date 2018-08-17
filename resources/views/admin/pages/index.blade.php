@@ -3,30 +3,32 @@
 @section('content')
 <div class="container-fluid">
   <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#addNew"><i class="fa fa-plus"></i> Add new</button>
-  <h1>Categories</h1>
+  <h1>Pages</h1>
   <table class="table table-striped">
     <tr>
       <th width="20">Id</th>
       <th>Name</th>
+      <th>Category</th>
       <th>Picture</th>
-      <th>Pages</th>
       <th>Timestamps</th>
     </tr>
-    @foreach($categories as $category)
+    @foreach($pages as $page)
     <tr>
-      <td>{{ $category->id }}</td>
+      <td>{{ $page->id }}</td>
       <td>
-        {{ $category->parent ? $category->parent->name.' / ' : '' }}<a href="{{ route('admin.categories.edit', $category->id) }}"><strong>{{ $category->name }}</strong></a><br>
-        <small><a href="#">{{ $category->parent ? '/'.$category->parent->slug : '' }}/{{ $category->slug }}</a>
+        <a href="{{ route('admin.pages.edit', $page->id) }}"><strong>{{ $page->name }}</strong></a><br>
+        <small><a href="#">/{{ $page->slug }}</a>
       </td>
-      <td>{{ $category->picture }}</td>
       <td>
-        {{ $category->pages->count() }}
+        @foreach($page->categories as $category)
+          {{ $category->name }},
+        @endforeach
       </td>
+      <td>{{ $page->picture }}</td>
       <td>
         <small>
-          Created at {{ $category->created_at }},<br>
-          Last update {{ $category->updated_at->diffForHumans() }}
+          Created at {{ $page->created_at }},<br>
+          Last update {{ $page->updated_at->diffForHumans() }}
         </small>
       </td>
     </tr>
@@ -38,7 +40,7 @@
 <!-- Modal -->
 <div class="modal fade" id="addNew" tabindex="-1" role="dialog" aria-labelledby="addNewLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
-    <form action="{{ route('admin.categories.store') }}" method="POST" class="modal-content">
+    <form action="{{ route('admin.pages.store') }}" method="POST" class="modal-content">
       @csrf
       <div class="modal-header">
         <h5 class="modal-title" id="addNewLabel">Add new</h5>

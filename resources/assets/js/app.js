@@ -17,6 +17,10 @@ window.Vue = require('vue');
 
 Vue.component('attachments', require('./components/AttachmentsComponent.vue'));
 Vue.component('editor', require('./components/EditorComponent.vue'));
+Vue.component('upload-input', require('./components/UploadInputComponent.vue'));
+Vue.component('admin-fields', require('./components/AdminFieldsComponent.vue'));
+
+
 
 const app = new Vue({
     el: '#app'

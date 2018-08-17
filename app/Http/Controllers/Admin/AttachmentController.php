@@ -19,7 +19,8 @@ class AttachmentController extends Controller
     public function index(Request $request)
     {
       $attachments = Attachment::all();
-      return view('admin.attachments.index', compact('attachments'));
+      if($request->CKEditor) { $isEditor = true; } else { $isEditor = false; }
+      return view('admin.attachments.index', compact('attachments', 'isEditor'));
     }
     public function store(Request $request)
     {

@@ -9,7 +9,7 @@
 import VueCkeditor from 'vue-ckeditor2';
 
 export default {
-  props: ['name'],
+  props: ['name', 'value'],
   components: { VueCkeditor },
   data() {
     return {
@@ -20,6 +20,9 @@ export default {
         filebrowserUploadUrl: '/admin/attachments'
       }
     };
+  },
+  mounted() {
+    this.content = this.value;
   },
   methods: {
     onBlur(editor) {

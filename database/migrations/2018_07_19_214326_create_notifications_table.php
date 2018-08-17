@@ -19,7 +19,7 @@ class CreateNotificationsTable extends Migration
         $table->foreign('user_id')->references('id')->on('users');
         $table->string('name');
         $table->string('location')->nullable();
-        $table->string('data')->nullable();
+        $table->longtext('data')->nullable();
         $table->boolean('readed')->default(false);
         $table->timestamps();
       });

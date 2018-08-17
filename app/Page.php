@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Page extends Model
 {
-  public function category()
+  public function categories()
   {
-    return $this->belongsTo('App\Category');
+    return $this->belongsToMany('App\Category');
   }
   public function fields()
   {

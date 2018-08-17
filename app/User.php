@@ -28,14 +28,6 @@ class User extends Authenticatable
   ];
 
 
-  public function pages()
-  {
-    return $this->hasMany('App\Page');
-  }
-  public function blocks()
-  {
-    return $this->hasMany('App\Block');
-  }
   public function notifications()
   {
     return $this->hasMany('App\Notification');

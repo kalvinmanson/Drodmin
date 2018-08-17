@@ -35,20 +35,27 @@
 <script>
 
 export default {
-  props: ['attachments'],
+  props: ['attachments', 'editor'],
   data() {
     return {
       attachmentsList: [],
       filterValue: '',
-      csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+      csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+      isEditor: false
     };
   },
   mounted() {
     this.attachmentsList = this.attachments;
+    this.isEditor = editor;
   },
   methods: {
     use(attachment) {
-      window.opener.CKEDITOR.tools.callFunction( 1, attachment.path );
+      if (this.editor == true) {
+        window.opener.CKEDITOR.tools.callFunction( 1, attachment.path );
+      } else {
+        window.opener.Uploader.callFunction(attachment.path);
+      }
+
       window.close();
     },
     searchAttachments: function(){
